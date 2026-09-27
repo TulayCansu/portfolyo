@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Tülay Cansu Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #fbf3e2;
+      --bg-card: rgba(78,66,76,0.08);
+      --bg-card-hover: rgba(78,66,76,0.14);
+      --bg-input: rgba(255,253,248,0.6);
+      --border: rgba(51,43,52,0.14);
+      --border-focus: #4e424c;
+      --text: #332b34;
+      --text-2: #6b5f60;
+      --text-3: #a39a86;
+      --accent: #4e424c;
+      --accent-2: #352c37;
+      --accent-blue: #b5cadd;
+      --accent-text: #5d7c99;
+      --gradient: linear-gradient(135deg, #4e424c 0%, #7f97ac 50%, #b5cadd 100%);
+      --green: #5f8f52;
+      --red: #c1594a;
+      --orange: #cf9a4b;
+      --sidebar-w: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: rgba(233,233,229,0.95);
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+    }
+
+    .sidebar-logo { padding: 0 24px 24px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .sidebar-logo h1 { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; }
+    .sidebar-logo h1 span { color: var(--accent-text); }
+    .sidebar-logo p { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+    .sidebar-nav { flex: 1; padding: 8px 12px; }
+    .sidebar-nav button {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; border: none; background: none;
+      color: var(--text-2); font-family: inherit; font-size: 14px;
+      font-weight: 500; border-radius: 10px; cursor: pointer;
+      transition: all 0.2s; text-align: left;
+    }
+    .sidebar-nav button:hover { background: var(--bg-card); color: var(--text); }
+    .sidebar-nav button.active { background: rgba(78,66,76,0.12); color: var(--accent); }
+    .sidebar-nav button .icon { font-size: 18px; width: 24px; text-align: center; }
+
+    .sidebar-actions {
+      padding: 16px 12px; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .sidebar-actions button {
+      width: 100%; padding: 12px; border: none; border-radius: 10px;
+      font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
+    }
+    .btn-preview { background: var(--bg-card); color: var(--text); border: 1px solid var(--border) !important; }
+    .btn-preview:hover { background: var(--bg-card-hover); border-color: var(--accent) !important; }
+    .btn-save { background: var(--accent-blue); color: var(--accent-2); }
+    .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-export { background: rgba(95,143,82,0.12); color: var(--green); border: 1px solid rgba(95,143,82,0.25) !important; }
+    .btn-export:hover { background: rgba(95,143,82,0.2); }
+    .btn-import { background: rgba(207,154,75,0.12); color: var(--orange); border: 1px solid rgba(207,154,75,0.25) !important; }
+    .btn-import:hover { background: rgba(207,154,75,0.2); }
+
+    /* ── Main ── */
+    .main { margin-left: var(--sidebar-w); padding: 32px 40px; min-height: 100vh; }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .page-title { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 700; }
+    .page-subtitle { color: var(--text-2); font-size: 14px; margin-bottom: 32px; }
+
+    .btn-add {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+      border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: 1px solid rgba(78,66,76,0.3);
+      background: rgba(78,66,76,0.08); color: var(--accent); transition: all 0.25s;
+    }
+    .btn-add:hover { background: rgba(78,66,76,0.15); border-color: var(--accent); transform: translateY(-1px); }
+    .btn-add .plus {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 6px;
+      background: var(--accent-text); color: white; font-size: 14px; font-weight: 700;
+    }
+
+    .btn-delete {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+      border-radius: 8px; font-family: inherit; font-size: 12px; font-weight: 500;
+      cursor: pointer; border: 1px solid rgba(193,89,74,0.2);
+      background: rgba(193,89,74,0.06); color: var(--red); transition: all 0.2s;
+    }
+    .btn-delete:hover { background: rgba(193,89,74,0.12); border-color: rgba(193,89,74,0.4); }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px; margin-bottom: 24px;
+      transition: border-color 0.2s, opacity 0.3s, transform 0.3s;
+      animation: cardIn 0.35s ease-out;
+    }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .card:hover { border-color: rgba(78,66,76,0.2); }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .card-title { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 600; }
+    .card-badge { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: rgba(78,66,76,0.12); color: var(--accent); }
+    .card-actions { display: flex; align-items: center; gap: 8px; }
+
+    /* ── Forms ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-full { grid-column: 1 / -1; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 12px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; }
+    .field input, .field textarea, .field select {
+      background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px; font-family: inherit;
+      font-size: 14px; color: var(--text); transition: all 0.2s; outline: none;
+    }
+    .field input:focus, .field textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(78,66,76,0.1);
+      background: rgba(78,66,76,0.05);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--text-3); }
+    .field textarea { resize: vertical; min-height: 100px; }
+
+    /* ── Panels ── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── Toast ── */
+    .status-toast {
+      position: fixed; bottom: 24px; right: 24px; padding: 14px 24px;
+      border-radius: 12px; font-size: 14px; font-weight: 500; z-index: 1000;
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .status-toast.show { transform: translateY(0); opacity: 1; }
+    .status-toast.success { background: rgba(95,143,82,0.15); color: var(--green); border: 1px solid rgba(95,143,82,0.2); }
+    .status-toast.error { background: rgba(193,89,74,0.15); color: var(--red); border: 1px solid rgba(193,89,74,0.2); }
+
+    /* ── Info tip ── */
+    .info-tip {
+      display: flex; align-items: flex-start; gap: 12px; padding: 16px;
+      background: rgba(78,66,76,0.06); border: 1px solid rgba(78,66,76,0.15);
+      border-radius: 12px; margin-bottom: 24px; font-size: 13px; color: var(--text-2); line-height: 1.6;
+    }
+    .info-tip .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Empty State ── */
+    .empty-state { text-align: center; padding: 48px 24px; color: var(--text-3); font-size: 14px; }
+    .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+
+    /* ── Image Upload ── */
+    .image-upload-area {
+      border: 2px dashed var(--border); border-radius: 12px; padding: 24px;
+      text-align: center; cursor: pointer; transition: all 0.25s;
+      position: relative; overflow: hidden; min-height: 140px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    }
+    .image-upload-area:hover { border-color: var(--accent); background: rgba(78,66,76,0.04); }
+    .image-upload-area.has-image { padding: 8px; }
+    .image-upload-area .upload-icon { font-size: 32px; opacity: 0.5; }
+    .image-upload-area .upload-text { font-size: 13px; color: var(--text-3); }
+    .image-upload-area .upload-hint { font-size: 11px; color: var(--text-3); opacity: 0.7; }
+    .image-upload-area img { max-width: 100%; max-height: 180px; border-radius: 8px; object-fit: cover; }
+    .image-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .image-actions { display: flex; gap: 8px; margin-top: 8px; }
+    .btn-remove-image {
+      display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+      border-radius: 6px; font-family: inherit; font-size: 11px; font-weight: 500;
+      cursor: pointer; border: 1px solid rgba(193,89,74,0.2);
+      background: rgba(193,89,74,0.06); color: var(--red); transition: all 0.2s;
+    }
+    .btn-remove-image:hover { background: rgba(193,89,74,0.12); }
+
+    /* ── Gallery ── */
+    .gallery-hint { font-size: 12px; color: var(--text-3); margin-bottom: 10px; }
+    .gallery-hint.gallery-hint-ok { color: var(--green); }
+    .gallery-hint.gallery-hint-warn { color: var(--orange); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+    .gallery-thumb { position: relative; aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: var(--bg-card); }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-thumb-remove {
+      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
+      border-radius: 50%; border: none; background: rgba(44,42,36,0.72); color: #fff;
+      font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+    }
+    .gallery-thumb-remove:hover { background: var(--red); }
+    .gallery-thumb-cover-badge {
+      position: absolute; bottom: 4px; left: 4px; font-size: 10px; font-weight: 600;
+      padding: 2px 6px; border-radius: 4px; background: rgba(44,42,36,0.72); color: #fff;
+    }
+    .gallery-add-tile {
+      aspect-ratio: 4/3; border: 2px dashed var(--border); border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; cursor: pointer; position: relative; color: var(--text-3); transition: all 0.25s;
+    }
+    .gallery-add-tile:hover { border-color: var(--accent); background: rgba(78,66,76,0.04); }
+    .gallery-add-tile .upload-icon { font-size: 20px; opacity: 0.6; }
+    .gallery-add-tile span.upload-text { font-size: 11px; }
+    .gallery-add-tile input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    /* ── Skills ── */
+    .skill-tag {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
+      border-radius: 20px; background: rgba(78,66,76,0.08);
+      border: 1px solid rgba(78,66,76,0.15); color: var(--text); font-size: 13px; font-weight: 500;
+    }
+    .skill-tag .skill-emoji { font-size: 14px; }
+    .skill-tag .skill-remove {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(193,89,74,0.1); color: var(--red); font-size: 12px;
+      cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; margin-left: 4px;
+    }
+    .skill-tag .skill-remove:hover { background: rgba(193,89,74,0.25); }
+
+    #importFileInput { display: none; }
+
+    @media (max-width: 900px) {
+      .sidebar { width: 220px; }
+      .main { margin-left: 220px; padding: 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h1>✦ <span>Dashboard</span></h1>
+      <p>Portfolio İçerik Yönetimi</p>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <button class="active" data-panel="personal"><span class="icon">👤</span> Kişisel Bilgiler</button>
+      <button data-panel="about"><span class="icon">💡</span> Hakkımda</button>
+      <button data-panel="projects"><span class="icon">💼</span> Projeler</button>
+      <button data-panel="experience"><span class="icon">📋</span> Deneyim</button>
+      <button data-panel="contact"><span class="icon">📧</span> İletişim</button>
+      <button data-panel="skills"><span class="icon">🛠️</span> Yetenekler</button>
+    </nav>
+
+    <div class="sidebar-actions">
+      <button class="btn-preview" onclick="openPreview()">👁️ Siteyi Önizle</button>
+      <button class="btn-save" onclick="saveAll()">💾 Değişiklikleri Kaydet</button>
+      <button class="btn-export" onclick="exportData()">📤 Dışa Aktar</button>
+      <button class="btn-import" onclick="document.getElementById('importFileInput').click()">📥 İçe Aktar</button>
+      <input type="file" id="importFileInput" accept=".json" onchange="importData(event)">
+    </div>
+  </aside>
+
+  <main class="main" id="mainContent">
+
+    <!-- ═══ Personal Info Panel ═══ -->
+    <div class="panel active" id="panel-personal">
+      <h2 class="page-title">Kişisel Bilgiler</h2>
+      <p class="page-subtitle">Temel bilgilerinizi buradan düzenleyebilirsiniz.</p>
+      <div class="info-tip">
+        <span class="icon">💡</span>
+        <span>Değişikliklerinizi kaydedin, ardından <strong>📤 Dışa Aktar</strong> ile indirilen JSON dosyasını <code>data/portfolio-data.json</code> olarak projenize ekleyin — gerçek ziyaretçiler de doğru içeriği görsün!</span>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Genel Bilgiler</span>
+          <span class="card-badge">Hero Bölümü</span>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Ad Soyad</label><input type="text" id="f_name" value="Tülay Cansu" placeholder="Adınız Soyadınız"></div>
+          <div class="field"><label>Unvan (TR)</label><input type="text" id="f_title_tr" value="Bilgisayar Mühendisi Adayı &amp; Web Geliştirici"></div>
+          <div class="field form-full"><label>Kısa Tanıtım (TR)</label><textarea id="f_desc_tr" rows="3">Bilgisayar Mühendisliği öğrencisi, web geliştirici ve yapay zeka meraklısı. Kod, tasarım ve yapay zekanın kesiştiği noktada yaratıcı çözümler üretiyorum.</textarea></div>
+          <div class="field"><label>Unvan (EN)</label><input type="text" id="f_title_en" value="Computer Engineering Student &amp; Web Developer"></div>
+          <div class="field form-full"><label>Kısa Tanıtım (EN)</label><textarea id="f_desc_en" rows="3">Computer Engineering student, web developer, and AI enthusiast. I create innovative solutions at the intersection of code, design, and artificial intelligence.</textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ About Panel ═══ -->
+    <div class="panel" id="panel-about">
+      <h2 class="page-title">Hakkımda Metinleri</h2>
+      <p class="page-subtitle">Hakkımda bölümündeki uzun metinleri buradan düzenleyin.</p>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Profil Fotoğrafı</span></div>
+        <div class="form-grid">
+          <div class="field form-full">
+            <label>Fotoğraf Yükle</label>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin:0 0 8px;">Hakkımda bölümünde görünecek profil fotoğrafınız. JPG/PNG, max 2MB önerilir.</p>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+              <div id="profilePhotoPreview" style="width:100px;height:100px;border-radius:50%;overflow:hidden;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:var(--bg);flex-shrink:0;">
+                👩‍💻
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <label for="profilePhotoInput" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--accent);color:#fff;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;width:fit-content;">
+                  📷 Fotoğraf Seç
+                  <input type="file" id="profilePhotoInput" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="handleProfilePhoto(this)">
+                </label>
+                <button type="button" onclick="removeProfilePhoto()" style="padding:6px 12px;background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2);border-radius:6px;cursor:pointer;font-size:0.8rem;width:fit-content;display:none;" id="removePhotoBtn">🗑️ Fotoğrafı Kaldır</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Türkçe İçerik</span></div>
+        <div class="form-grid">
+          <div class="field form-full"><label>Başlık (TR)</label><input type="text" id="f_about_heading_tr" value="Bilgisayar Mühendisi Adayı &amp; Web Geliştirici"></div>
+          <div class="field form-full"><label>Paragraf 1 (TR)</label><textarea id="f_about_p1_tr" rows="4">Niğde Ömer Halisdemir Üniversitesi Bilgisayar Mühendisliği 2. sınıf öğrencisiyim. Akademik eğitimim boyunca bilgisayar bilimlerinin teorik temellerinden, modern web teknolojilerine ve yapay zeka uygulamalarına kadar geniş bir yelpazede yetkinlik geliştirdim.</textarea></div>
+          <div class="field form-full"><label>Paragraf 2 (TR)</label><textarea id="f_about_p2_tr" rows="4">Çalışmalarımda yazılım mühendisliği prensiplerini, algoritmik düşünce yapısını ve temiz kod yazımını (clean code) merkeze alıyorum. Takım çalışmasına büyük önem veriyor, Git ve GitHub üzerinden çoklu geliştirici süreçlerini başarıyla yönetiyorum.</textarea></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">English Content</span></div>
+        <div class="form-grid">
+          <div class="field form-full"><label>Heading (EN)</label><input type="text" id="f_about_heading_en" value="Computer Engineering Student &amp; Web Developer"></div>
+          <div class="field form-full"><label>Paragraph 1 (EN)</label><textarea id="f_about_p1_en" rows="4">I'm a 2nd year Computer Engineering student at Niğde Ömer Halisdemir University. Throughout my academic journey, I've developed competencies spanning from theoretical foundations of computer science to modern web technologies and AI applications.</textarea></div>
+          <div class="field form-full"><label>Paragraph 2 (EN)</label><textarea id="f_about_p2_en" rows="4">I center my work around software engineering principles, algorithmic thinking, and clean code practices. I value teamwork highly and successfully manage multi-developer workflows through Git and GitHub.</textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Projects Panel ═══ -->
+    <div class="panel" id="panel-projects">
+      <div class="page-header">
+        <h2 class="page-title">Projeler</h2>
+        <button class="btn-add" onclick="addProject()"><span class="plus">+</span> Yeni Proje Ekle</button>
+      </div>
+      <p class="page-subtitle">Proje içeriklerini düzenleyin, yeni projeler ekleyin veya silin.</p>
+      <div id="projectContainer"></div>
+    </div>
+
+    <!-- ═══ Experience Panel ═══ -->
+    <div class="panel" id="panel-experience">
+      <div class="page-header">
+        <h2 class="page-title">Deneyim &amp; Eğitim</h2>
+        <button class="btn-add" onclick="addExperience()"><span class="plus">+</span> Yeni Deneyim Ekle</button>
+      </div>
+      <p class="page-subtitle">Deneyim ve eğitim bilgilerinizi düzenleyin.</p>
+      <div id="experienceContainer"></div>
+    </div>
+
+    <!-- ═══ Contact Panel ═══ -->
+    <div class="panel" id="panel-contact">
+      <h2 class="page-title">İletişim Bilgileri</h2>
+      <p class="page-subtitle">İletişim bilgilerinizi ve sosyal medya linklerinizi düzenleyin.</p>
+      <div class="card">
+        <div class="card-header"><span class="card-title">İletişim</span></div>
+        <div class="form-grid">
+          <div class="field"><label>Email</label><input type="email" id="f_email" value="tulaycansu10@email.com"></div>
+          <div class="field"><label>Konum (TR)</label><input type="text" id="f_location_tr" value="Niğde, Türkiye"></div>
+          <div class="field"><label>Location (EN)</label><input type="text" id="f_location_en" value="Niğde, Turkey"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Sosyal Medya Linkleri</span></div>
+        <div class="form-grid">
+          <div class="field"><label>GitHub URL</label><input type="url" id="f_github" value="" placeholder="https://github.com/kullaniciadi"></div>
+          <div class="field"><label>LinkedIn URL</label><input type="url" id="f_linkedin" value="" placeholder="https://linkedin.com/in/kullaniciadi"></div>
+          <div class="field"><label>Twitter/X URL</label><input type="url" id="f_twitter" value="" placeholder="https://x.com/kullaniciadi"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Skills Panel ═══ -->
+    <div class="panel" id="panel-skills">
+      <div class="page-header"><h2 class="page-title">Yetenekler</h2></div>
+      <p class="page-subtitle">Yetenek etiketlerinizi ekleyin veya kaldırın.</p>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Yetenek Ekle</span></div>
+        <div class="form-grid">
+          <div class="field"><label>Yeni Yetenek Adı</label><input type="text" id="f_new_skill" placeholder="Örn: Python, React..."></div>
+          <div class="field"><label>Emoji (İkon)</label><input type="text" id="f_new_skill_emoji" value="🔹" placeholder="Örn: 💻"></div>
+          <div class="field form-full" style="align-items: flex-start;">
+            <button class="btn-add" onclick="addSkill()" style="margin-top:4px;"><span class="plus">+</span> Yetenek Ekle</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Mevcut Yetenekler</span><span class="card-badge" id="skillCount">0</span></div>
+        <div id="skillsContainer" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="status-toast" id="toast"></div>
+
+  <script>
+    // ─── Default Data ───
+    const defaultProjects = [
+      { id:'p1', title_tr:'Capybara Platformu', title_en:'Capybara Platform',
+        desc_tr:'c-API-bara ekibiyle geliştirdiğimiz kredi tabanlı yetenek paylaşım platformu. Yapay zeka destekli video ön eleme ve puanlama sistemi, UML diyagramları ve veritabanı şemaları tasarladım.',
+        desc_en:'Credit-based skill sharing platform developed with the c-API-bara team. I designed the AI-powered video screening and scoring system, UML diagrams, and database schemas.',
+        category:'software', tech:'Java, MySQL, UML, AI', github:'', demo:'', image:'', images:[] },
+      { id:'p2', title_tr:'DevLens 🏆', title_en:'DevLens 🏆',
+        desc_tr:'Dezenformasyonla mücadele odaklı hackathon projesi. Chrome eklentisi ve doğrulama web sitesinden oluşan medya okuryazarlığı aracı. Üniversite hackathonunda 3. oldu. 🏆',
+        desc_en:'Hackathon project focused on fighting disinformation. A media literacy tool consisting of a Chrome extension and verification website. Won 3rd place in university hackathon. 🏆',
+        category:'web', tech:'Chrome Ext., HTML/CSS, JavaScript', github:'', demo:'', image:'', images:[] },
+      { id:'p3', title_tr:'Anadolu Atlası', title_en:'Anadolu Atlas',
+        desc_tr:"Responsive harita tasarımlarını içeren interaktif şehir tanıtım web sitesi. HTML, CSS ve JavaScript ile Türkiye'nin şehirlerini keşfetmeyi sağlayan modern bir arayüz.",
+        desc_en:"Interactive city guide website with responsive map designs. A modern interface built with HTML, CSS, and JavaScript for exploring Turkey's cities.",
+        category:'web', tech:'HTML, CSS, JavaScript, Responsive', github:'', demo:'', image:'', images:[] },
+      { id:'p4', title_tr:'Nikah Randevu Sistemi', title_en:'Marriage Appointment System',
+        desc_tr:"Tarsus Belediyesi için yönetim paneli arayüz wireframe'leri tasarladım ve projenin GitHub repository süreçlerini başlattım.",
+        desc_en:"Designed admin dashboard interface wireframes for Tarsus Municipality and initiated the project's GitHub repository processes.",
+        category:'design', tech:'Figma, Wireframe, UI/UX, GitHub', github:'', demo:'', image:'', images:[] },
+      { id:'p5', title_tr:'Öğrenci Staj Sistemi', title_en:'Student Internship System',
+        desc_tr:'Java ve MySQL kullanarak geliştirdiğim komut satırı tabanlı staj yönetim sistemi. Maven projesi olarak yapılandırılmış, veritabanı entegrasyonlu bir uygulama.',
+        desc_en:'Command-line based internship management system developed with Java and MySQL. Structured as a Maven project with database integration.',
+        category:'software', tech:'Java, Maven, MySQL, NetBeans', github:'', demo:'', image:'', images:[] },
+      { id:'p6', title_tr:'Engelsiz Üniversite Web', title_en:'Accessible University Web',
+        desc_tr:'OHU Engelsiz Üniversite topluluğunun web sitesi. WordPress altyapısında Gutenberg blok editörü ile erişilebilir web içerikleri üreterek Web Koordinatörü olarak görev alıyorum.',
+        desc_en:'OHU Accessible University community website. I serve as Web Coordinator, producing accessible web content using WordPress with Gutenberg block editor.',
+        category:'web', tech:'WordPress, Gutenberg, Erişilebilirlik', github:'', demo:'https://ohu.edu.tr', image:'', images:[] }
+    ];
+
+    const defaultExperiences = [
+      { id:'exp_1', title_tr:'Web Koordinatörü', company_tr:'Engelsiz Üniversite Topluluğu — OHU',
+        desc_tr:'WordPress altyapısında erişilebilir web içerikleri üretimi ve yönetimi. Gutenberg blok editörü ile topluluk web sitesinin bakımını yapıyorum.', date:'2025 - Günümüz' },
+      { id:'exp_2', title_tr:'UI/UX Tasarımcı (Stajyer)', company_tr:'Tarsus Belediyesi',
+        desc_tr:"Nikah Randevu Sistemi projesinde yönetim paneli wireframe'lerini Figma ile tasarladım. GitHub repository süreçlerini başlatarak ekip içi iş birliğini koordine ettim.", date:'Temmuz 2026' },
+      { id:'exp_3', title_tr:'Hackathon Yarışmacısı — 3. 🏆', company_tr:'Üniversite Hackathonu',
+        desc_tr:"DevLens projesiyle dezenformasyonla mücadele temalı hackathonda 3.'lük elde ettik. Chrome eklentisi ve web sitesinden oluşan medya okuryazarlığı aracı geliştirdik.", date:'Ekim - Kasım 2025' },
+      { id:'edu_1', title_tr:'Bilgisayar Mühendisliği (Devam Ediyor)', company_tr:'Niğde Ömer Halisdemir Üniversitesi',
+        desc_tr:'2. sınıf öğrencisiyim. Veri yapıları, algoritmalar, OOP, veritabanı yönetimi ve web teknolojileri alanlarında eğitim alıyorum. AIdea Camp, Türk Telekom AI Kampı ve She-nergy programlarına katıldım.',
+        date:'2024 - Günümüz', isEducation: true }
+    ];
+
+    const defaultSkills = [
+      { name:'HTML/CSS', emoji:'🌐' }, { name:'JavaScript', emoji:'⚡' },
+      { name:'Java', emoji:'☕' }, { name:'Python', emoji:'🐍' },
+      { name:'MySQL', emoji:'🗄️' }, { name:'Git/GitHub', emoji:'📦' },
+      { name:'Figma', emoji:'🎨' }, { name:'WordPress', emoji:'📝' }
+    ];
+
+    // ─── State ───
+    let projects = [], experiences = [], skills = [];
+    let nextProjId = 100, nextExpId = 100;
+
+    // ─── Panel Navigation ───
+    document.querySelectorAll('#sidebarNav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#sidebarNav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // ─── Image compression (canvas, max 1600px, JPEG 75%) ───
+    function compressImage(file, maxEdge, quality) {
+      return new Promise((resolve) => {
+        if (!file.type.startsWith('image/')) { resolve(null); return; }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > maxEdge || height > maxEdge) {
+              const ratio = Math.min(maxEdge / width, maxEdge / height);
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = () => resolve(null);
+          img.src = e.target.result;
+        };
+        reader.onerror = () => resolve(null);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ─── Project CRUD ───
+    function renderProjectCards() {
+      const container = document.getElementById('projectContainer');
+      if (projects.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-icon">💼</div><p>Henüz proje eklenmemiş.</p></div>';
+        return;
+      }
+      const catLabels = { web:'Web', software:'Yazılım', design:'Tasarım' };
+      container.innerHTML = projects.map((proj, index) => {
+        const imgPreview = proj.image
+          ? `<img src="${proj.image}" alt="Kapak"><div class="image-actions"><button type="button" class="btn-remove-image" onclick="removeProjectImage('${proj.id}')">🗑 Fotoğrafı Kaldır</button></div>`
+          : `<div class="upload-icon">📷</div><div class="upload-text">Kapak fotoğrafı ekle</div><div class="upload-hint">Otomatik sıkıştırılır</div>`;
+        const galleryImages = proj.images || [];
+        const galleryThumbs = galleryImages.map((src, i) => `
+          <div class="gallery-thumb">
+            <img src="${src}" alt="Galeri ${i+1}">
+            ${i===0?'<span class="gallery-thumb-cover-badge">Kapak</span>':''}
+            <button type="button" class="gallery-thumb-remove" onclick="removeProjectGalleryImage('${proj.id}',${i})">✕</button>
+          </div>`).join('');
+        const galleryHint = galleryImages.length >= 6
+          ? `<div class="gallery-hint gallery-hint-ok">✓ ${galleryImages.length} görsel eklendi.</div>`
+          : `<div class="gallery-hint gallery-hint-warn">${galleryImages.length}/6 görsel — en az 6 önerilir.</div>`;
+        return `
+        <div class="card" id="card-${proj.id}">
+          <div class="card-header">
+            <span class="card-title">Proje ${index+1} — ${proj.title_tr||'Yeni Proje'}</span>
+            <div class="card-actions">
+              <span class="card-badge">${catLabels[proj.category]||'Web'}</span>
+              <button class="btn-delete" onclick="removeProject('${proj.id}')">🗑 Sil</button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="field form-full">
+              <label>Kapak Fotoğrafı</label>
+              <div class="image-upload-area ${proj.image?'has-image':''}" id="upload_${proj.id}">
+                ${imgPreview}
+                ${!proj.image?`<input type="file" accept="image/*" onchange="handleProjectImage(event,'${proj.id}')">`:'' }
+              </div>
+            </div>
+            <div class="field form-full">
+              <label>Galeri Görselleri</label>
+              ${galleryHint}
+              <div class="gallery-grid" id="gallery_${proj.id}">
+                ${galleryThumbs}
+                <div class="gallery-add-tile">
+                  <div class="upload-icon">➕</div>
+                  <span class="upload-text">Görsel Ekle</span>
+                  <input type="file" accept="image/*" multiple onchange="handleProjectGalleryImages(event,'${proj.id}')">
+                </div>
+              </div>
+            </div>
+            <div class="field"><label>Proje Adı (TR)</label><input type="text" id="f_${proj.id}_title_tr" value="${escapeHtml(proj.title_tr||'')}" placeholder="Proje adı"></div>
+            <div class="field"><label>Project Name (EN)</label><input type="text" id="f_${proj.id}_title_en" value="${escapeHtml(proj.title_en||'')}" placeholder="Project name"></div>
+            <div class="field form-full"><label>Açıklama (TR)</label><textarea id="f_${proj.id}_desc_tr" rows="3">${escapeHtml(proj.desc_tr||'')}</textarea></div>
+            <div class="field form-full"><label>Description (EN)</label><textarea id="f_${proj.id}_desc_en" rows="3">${escapeHtml(proj.desc_en||'')}</textarea></div>
+            <div class="field">
+              <label>Kategori</label>
+              <select id="f_${proj.id}_category">
+                <option value="web" ${proj.category==='web'?'selected':''}>Web Geliştirme</option>
+                <option value="software" ${proj.category==='software'?'selected':''}>Yazılım</option>
+                <option value="design" ${proj.category==='design'?'selected':''}>UI/UX Tasarım</option>
+              </select>
+            </div>
+            <div class="field"><label>Teknolojiler (virgülle)</label><input type="text" id="f_${proj.id}_tech" value="${escapeHtml(proj.tech||'')}" placeholder="HTML, CSS, JS"></div>
+            <div class="field"><label>GitHub URL</label><input type="url" id="f_${proj.id}_github" value="${escapeHtml(proj.github||'')}" placeholder="https://github.com/..."></div>
+            <div class="field"><label>Demo URL</label><input type="url" id="f_${proj.id}_demo" value="${escapeHtml(proj.demo||'')}" placeholder="https://..."></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    async function handleProjectImage(event, projectId) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { showToast('Geçerli bir resim seçin.','error'); return; }
+      showToast('Sıkıştırılıyor...','success');
+      const dataUrl = await compressImage(file, 1600, 0.75);
+      if (!dataUrl) { showToast('Hata oluştu.','error'); return; }
+      const proj = projects.find(p => p.id === projectId);
+      if (proj) { proj.image = dataUrl; renderProjectCards(); showToast('Kapak fotoğrafı eklendi! 📸','success'); }
+    }
+
+    function removeProjectImage(projectId) {
+      const proj = projects.find(p => p.id === projectId);
+      if (proj) { proj.image = ''; renderProjectCards(); showToast('Fotoğraf kaldırıldı.','success'); }
+    }
+
+    async function handleProjectGalleryImages(event, projectId) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+      const proj = projects.find(p => p.id === projectId);
+      if (!proj) return;
+      if (!proj.images) proj.images = [];
+      showToast('Görseller sıkıştırılıyor...','success');
+      let rejected = 0;
+      const results = await Promise.all(files.map(f => {
+        if (!f.type.startsWith('image/')) { rejected++; return Promise.resolve(null); }
+        return compressImage(f, 1600, 0.75);
+      }));
+      results.forEach(d => { if (d) proj.images.push(d); else rejected++; });
+      renderProjectCards();
+      if (rejected > 0) showToast(`${rejected} dosya eklenemedi.`,'error');
+      else showToast('Galeri görselleri eklendi! 🖼️','success');
+    }
+
+    function removeProjectGalleryImage(projectId, index) {
+      const proj = projects.find(p => p.id === projectId);
+      if (proj && proj.images) { proj.images.splice(index, 1); renderProjectCards(); showToast('Görsel kaldırıldı.','success'); }
+    }
+
+    function addProject() {
+      const id = 'proj_new_' + (nextProjId++);
+      projects.push({ id, title_tr:'', title_en:'', desc_tr:'', desc_en:'', category:'web', tech:'', github:'', demo:'', image:'', images:[] });
+      renderProjectCards();
+      setTimeout(() => { const el = document.getElementById('card-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }, 100);
+      showToast('Yeni proje eklendi! ✏️','success');
+    }
+
+    function removeProject(id) {
+      const proj = projects.find(p => p.id === id);
+      if (!confirm(`"${proj?.title_tr||'Bu proje'}" silinecek. Emin misiniz?`)) return;
+      const card = document.getElementById('card-'+id);
+      if (card) {
+        card.style.transition = 'opacity 0.3s, transform 0.3s';
+        card.style.opacity = '0'; card.style.transform = 'translateY(-10px)';
+        setTimeout(() => { projects = projects.filter(p=>p.id!==id); renderProjectCards(); showToast('Proje silindi.','success'); }, 300);
+      } else { projects = projects.filter(p=>p.id!==id); renderProjectCards(); }
+    }
+
+    function collectProjectData() {
+      return projects.map(proj => ({
+        id: proj.id,
+        title_tr: val(`f_${proj.id}_title_tr`) || proj.title_tr,
+        title_en: val(`f_${proj.id}_title_en`) || proj.title_en,
+        desc_tr: val(`f_${proj.id}_desc_tr`) || proj.desc_tr,
+        desc_en: val(`f_${proj.id}_desc_en`) || proj.desc_en,
+        category: val(`f_${proj.id}_category`) || proj.category,
+        tech: val(`f_${proj.id}_tech`) || proj.tech,
+        github: val(`f_${proj.id}_github`) || proj.github,
+        demo: val(`f_${proj.id}_demo`) || proj.demo,
+        image: proj.image || '',
+        images: proj.images || []
+      }));
+    }
+
+    // ─── Experience CRUD ───
+    function renderExperienceCards() {
+      const container = document.getElementById('experienceContainer');
+      if (experiences.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>Henüz deneyim eklenmemiş.</p></div>';
+        return;
+      }
+      container.innerHTML = experiences.map((exp, index) => `
+        <div class="card" id="card-${exp.id}">
+          <div class="card-header">
+            <span class="card-title">${exp.isEducation?'Eğitim':'Deneyim '+(index+1)} — ${exp.title_tr||'Yeni'}</span>
+            <div class="card-actions">
+              ${exp.isEducation?'<span class="card-badge">Eğitim</span>':''}
+              <button class="btn-delete" onclick="removeExperience('${exp.id}')">🗑 Sil</button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="field"><label>Pozisyon / Başlık</label><input type="text" id="f_${exp.id}_title_tr" value="${escapeHtml(exp.title_tr||'')}" placeholder="Web Geliştirici"></div>
+            <div class="field"><label>Kurum</label><input type="text" id="f_${exp.id}_company_tr" value="${escapeHtml(exp.company_tr||'')}" placeholder="Şirket Adı"></div>
+            <div class="field"><label>Tarih</label><input type="text" id="f_${exp.id}_date" value="${escapeHtml(exp.date||'')}" placeholder="2025 - Günümüz"></div>
+            <div class="field form-full"><label>Açıklama</label><textarea id="f_${exp.id}_desc_tr" rows="3">${escapeHtml(exp.desc_tr||'')}</textarea></div>
+          </div>
+        </div>`).join('');
+    }
+
+    function addExperience() {
+      const id = 'exp_new_' + (nextExpId++);
+      experiences.push({ id, title_tr:'', company_tr:'', desc_tr:'', date:'' });
+      renderExperienceCards();
+      setTimeout(() => { const el = document.getElementById('card-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }, 100);
+      showToast('Yeni deneyim eklendi! ✏️','success');
+    }
+
+    function removeExperience(id) {
+      const exp = experiences.find(e => e.id === id);
+      if (!confirm(`"${exp?.title_tr||'Bu deneyim'}" silinecek?`)) return;
+      const card = document.getElementById('card-'+id);
+      if (card) {
+        card.style.transition = 'opacity 0.3s, transform 0.3s';
+        card.style.opacity='0'; card.style.transform='translateY(-10px)';
+        setTimeout(() => { experiences=experiences.filter(e=>e.id!==id); renderExperienceCards(); showToast('Deneyim silindi.','success'); }, 300);
+      } else { experiences=experiences.filter(e=>e.id!==id); renderExperienceCards(); }
+    }
+
+    function collectExperienceData() {
+      return experiences.map(exp => ({
+        id: exp.id,
+        title_tr: val(`f_${exp.id}_title_tr`) || exp.title_tr,
+        company_tr: val(`f_${exp.id}_company_tr`) || exp.company_tr,
+        desc_tr: val(`f_${exp.id}_desc_tr`) || exp.desc_tr,
+        date: val(`f_${exp.id}_date`) || exp.date,
+        isEducation: exp.isEducation || false
+      }));
+    }
+
+    // ─── Skills CRUD ───
+    function renderSkills() {
+      const container = document.getElementById('skillsContainer');
+      const countEl = document.getElementById('skillCount');
+      if (countEl) countEl.textContent = skills.length;
+      if (skills.length === 0) { container.innerHTML = '<div class="empty-state" style="padding:24px"><p>Henüz yetenek eklenmemiş.</p></div>'; return; }
+      container.innerHTML = skills.map((skill, index) => `
+        <div class="skill-tag">
+          <span class="skill-emoji">${skill.emoji||'🔹'}</span>
+          <span>${escapeHtml(skill.name)}</span>
+          <button class="skill-remove" onclick="removeSkill(${index})">✕</button>
+        </div>`).join('');
+    }
+
+    function addSkill() {
+      const nameInput = document.getElementById('f_new_skill');
+      const emojiInput = document.getElementById('f_new_skill_emoji');
+      const name = nameInput.value.trim();
+      const emoji = emojiInput.value.trim() || '🔹';
+      if (!name) { showToast('Yetenek adı boş olamaz.','error'); return; }
+      if (skills.some(s => s.name.toLowerCase()===name.toLowerCase())) { showToast('Bu yetenek zaten var.','error'); return; }
+      skills.push({ name, emoji });
+      renderSkills();
+      nameInput.value=''; emojiInput.value='🔹';
+      showToast(`"${name}" eklendi! ✨`,'success');
+    }
+
+    function removeSkill(index) {
+      const name = skills[index]?.name||'Bu yetenek';
+      skills.splice(index,1);
+      renderSkills();
+      showToast(`"${name}" kaldırıldı.`,'success');
+    }
+
+    // ─── Build data object ───
+    function buildDataObject() {
+      projects = collectProjectData();
+      experiences = collectExperienceData();
+      const trProj={}, enProj={};
+      projects.forEach((proj,i) => {
+        trProj[`p${i+1}_title`]=proj.title_tr; trProj[`p${i+1}_desc`]=proj.desc_tr;
+        enProj[`p${i+1}_title`]=proj.title_en; enProj[`p${i+1}_desc`]=proj.desc_en;
+      });
+      const data = {
+        tr: { hero_name:val('f_name'), about_heading:val('f_about_heading_tr')||val('f_title_tr'),
+              hero_description:val('f_desc_tr'), about_p1:val('f_about_p1_tr'), about_p2:val('f_about_p2_tr'),
+              contact_location:val('f_location_tr'), ...trProj },
+        en: { hero_name:val('f_name'), about_heading:val('f_about_heading_en')||val('f_title_en'),
+              hero_description:val('f_desc_en'), about_p1:val('f_about_p1_en'), about_p2:val('f_about_p2_en'),
+              contact_location:val('f_location_en'), ...enProj },
+        meta: { email:val('f_email'), github:val('f_github'), linkedin:val('f_linkedin'), twitter:val('f_twitter'), profilePhoto: profilePhoto },
+        projects, experiences, skills
+      };
+      Object.keys(data.tr).forEach(k => { if(!data.tr[k]) delete data.tr[k]; });
+      Object.keys(data.en).forEach(k => { if(!data.en[k]) delete data.en[k]; });
+      return data;
+    }
+
+    // ─── Save (localStorage) ───
+    function saveAll() {
+      const data = buildDataObject();
+      try {
+        localStorage.setItem('portfolio-data', JSON.stringify(data));
+        showToast('Değişiklikler kaydedildi! ✨','success');
+      } catch(e) {
+        if (e.name==='QuotaExceededError') showToast('Depolama dolu! Bazı fotoğrafları kaldırın.','error');
+        else showToast('Hata: '+e.message,'error');
+      }
+    }
+
+    // ─── Export JSON ───
+    function exportData() {
+      const data = buildDataObject();
+      const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href=url; a.download='portfolio-data.json';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(url);
+      showToast('portfolio-data.json indirildi! data/ klasörüne koyun. 🚀','success');
+    }
+
+    // ─── Import JSON ───
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          applyLoadedData(data);
+          localStorage.setItem('portfolio-data', JSON.stringify(data));
+          showToast('Veri içe aktarıldı! ✅','success');
+        } catch(err) { showToast('Geçersiz JSON dosyası.','error'); }
+      };
+      reader.readAsText(file);
+      event.target.value='';
+    }
+
+    // ─── Apply data to state + forms ───
+    function applyLoadedData(data) {
+      projects = (data.projects&&data.projects.length>0) ? data.projects : JSON.parse(JSON.stringify(defaultProjects));
+      experiences = (data.experiences&&data.experiences.length>0) ? data.experiences : [...defaultExperiences];
+      skills = (data.skills&&data.skills.length>0) ? data.skills : [...defaultSkills];
+
+      // Restore profile photo
+      if (data.meta?.profilePhoto) {
+        profilePhoto = data.meta.profilePhoto;
+        updateProfilePhotoPreview();
+      }
+
+      const fieldMap = {
+        'f_name': data.tr?.hero_name,
+        'f_desc_tr': data.tr?.hero_description, 'f_desc_en': data.en?.hero_description,
+        'f_about_heading_tr': data.tr?.about_heading, 'f_about_heading_en': data.en?.about_heading,
+        'f_about_p1_tr': data.tr?.about_p1, 'f_about_p1_en': data.en?.about_p1,
+        'f_about_p2_tr': data.tr?.about_p2, 'f_about_p2_en': data.en?.about_p2,
+        'f_location_tr': data.tr?.contact_location, 'f_location_en': data.en?.contact_location,
+        'f_email': data.meta?.email, 'f_github': data.meta?.github,
+        'f_linkedin': data.meta?.linkedin, 'f_twitter': data.meta?.twitter
+      };
+      Object.entries(fieldMap).forEach(([id,value]) => {
+        if (value) { const el=document.getElementById(id); if(el) el.value=value; }
+      });
+
+      renderProjectCards();
+      renderExperienceCards();
+      renderSkills();
+    }
+
+    // ─── Load on init ───
+    function loadSaved() {
+      try {
+        const saved = localStorage.getItem('portfolio-data');
+        if (saved) { applyLoadedData(JSON.parse(saved)); }
+        else {
+          projects = JSON.parse(JSON.stringify(defaultProjects));
+          experiences = [...defaultExperiences];
+          skills = [...defaultSkills];
+          renderProjectCards(); renderExperienceCards(); renderSkills();
+        }
+      } catch(e) {
+        projects = JSON.parse(JSON.stringify(defaultProjects));
+        experiences = [...defaultExperiences];
+        skills = [...defaultSkills];
+        renderProjectCards(); renderExperienceCards(); renderSkills();
+      }
+    }
+
+    // ─── Profile Photo ───
+    let profilePhoto = '';
+
+    async function handleProfilePhoto(input) {
+      const file = input.files[0];
+      if (!file) return;
+      if (!['image/jpeg','image/png','image/webp'].includes(file.type)) {
+        showToast('Lütfen JPG, PNG veya WebP formatında bir dosya seçin.','error');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Dosya çok büyük (max 5MB).','error');
+        return;
+      }
+      try {
+        profilePhoto = await compressImage(file, 400, 0.8);
+        updateProfilePhotoPreview();
+        showToast('Profil fotoğrafı yüklendi! 📸','success');
+      } catch(err) {
+        showToast('Fotoğraf yüklenemedi: '+err.message,'error');
+      }
+    }
+
+    function removeProfilePhoto() {
+      profilePhoto = '';
+      updateProfilePhotoPreview();
+      showToast('Profil fotoğrafı kaldırıldı.','success');
+    }
+
+    function updateProfilePhotoPreview() {
+      const preview = document.getElementById('profilePhotoPreview');
+      const removeBtn = document.getElementById('removePhotoBtn');
+      if (profilePhoto) {
+        preview.innerHTML = `<img src="${profilePhoto}" alt="Profil" style="width:100%;height:100%;object-fit:cover;">`;
+        removeBtn.style.display = 'block';
+      } else {
+        preview.innerHTML = '👩‍💻';
+        removeBtn.style.display = 'none';
+      }
+    }
+
+    function val(id) { const el=document.getElementById(id); return el?el.value.trim():''; }
+    function escapeHtml(text) { const d=document.createElement('div'); d.textContent=text; return d.innerHTML; }
+    function openPreview() { window.open('index.html','_blank'); }
+    function showToast(msg, type) {
+      const toast=document.getElementById('toast');
+      toast.textContent=msg;
+      toast.className=`status-toast ${type} show`;
+      setTimeout(()=>toast.classList.remove('show'),3000);
+    }
+
+    loadSaved();
+  </script>
+</body>
+</html>
