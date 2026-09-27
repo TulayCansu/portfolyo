@@ -1,0 +1,197 @@
+{
+  "tr": {
+    "hero_name": "Tülay Cansu",
+    "about_heading": "Bilgisayar Mühendisi Adayı & Web Geliştirici",
+    "hero_description": "Bilgisayar Mühendisliği öğrencisi, web geliştirici ve yapay zeka meraklısı. Kod, tasarım ve yapay zekanın kesiştiği noktada yaratıcı çözümler üretiyorum.",
+    "about_p1": "Niğde Ömer Halisdemir Üniversitesi Bilgisayar Mühendisliği 2. sınıf öğrencisiyim. Akademik eğitimim boyunca bilgisayar bilimlerinin teorik temellerinden, modern web teknolojilerine ve yapay zeka uygulamalarına kadar geniş bir yelpazede yetkinlik geliştirdim.",
+    "about_p2": "Çalışmalarımda yazılım mühendisliği prensiplerini, algoritmik düşünce yapısını ve temiz kod yazımını (clean code) merkeze alıyorum. Takım çalışmasına büyük önem veriyor, Git ve GitHub üzerinden çoklu geliştirici süreçlerini başarıyla yönetiyorum.",
+    "contact_location": "Niğde, Türkiye",
+    "p1_title": "Capybara Platformu",
+    "p1_desc": "c-API-bara ekibiyle geliştirdiğimiz kredi tabanlı yetenek paylaşım platformu. Yapay zeka destekli video ön eleme ve puanlama sistemi, UML diyagramları ve veritabanı şemaları tasarladım.",
+    "p2_title": "DevLens 🏆",
+    "p2_desc": "Dezenformasyonla mücadele odaklı hackathon projesi. Chrome eklentisi ve doğrulama web sitesinden oluşan medya okuryazarlığı aracı. Üniversite hackathonunda 3. oldu. 🏆",
+    "p3_title": "Anadolu Atlası",
+    "p3_desc": "Responsive harita tasarımlarını içeren interaktif şehir tanıtım web sitesi. HTML, CSS ve JavaScript ile Türkiye'nin şehirlerini keşfetmeyi sağlayan modern bir arayüz.",
+    "p4_title": "Nikah Randevu Sistemi",
+    "p4_desc": "Tarsus Belediyesi için yönetim paneli arayüz wireframe'leri tasarladım ve projenin GitHub repository süreçlerini başlattım.",
+    "p5_title": "Öğrenci Staj Sistemi",
+    "p5_desc": "Java ve MySQL kullanarak geliştirdiğim komut satırı tabanlı staj yönetim sistemi. Maven projesi olarak yapılandırılmış, veritabanı entegrasyonlu bir uygulama.",
+    "p6_title": "Engelsiz Üniversite Web",
+    "p6_desc": "OHU Engelsiz Üniversite topluluğunun web sitesi. WordPress altyapısında Gutenberg blok editörü ile erişilebilir web içerikleri üreterek Web Koordinatörü olarak görev alıyorum."
+  },
+  "en": {
+    "hero_name": "Tülay Cansu",
+    "about_heading": "Computer Engineering Student & Web Developer",
+    "hero_description": "Computer Engineering student, web developer, and AI enthusiast. I create innovative solutions at the intersection of code, design, and artificial intelligence.",
+    "about_p1": "I'm a 2nd year Computer Engineering student at Niğde Ömer Halisdemir University. Throughout my academic journey, I've developed competencies spanning from theoretical foundations of computer science to modern web technologies and AI applications.",
+    "about_p2": "I center my work around software engineering principles, algorithmic thinking, and clean code practices. I value teamwork highly and successfully manage multi-developer workflows through Git and GitHub.",
+    "contact_location": "Niğde, Turkey",
+    "p1_title": "Capybara Platform",
+    "p1_desc": "Credit-based skill sharing platform developed with the c-API-bara team. I designed the AI-powered video screening and scoring system, UML diagrams, and database schemas.",
+    "p2_title": "DevLens 🏆",
+    "p2_desc": "Hackathon project focused on fighting disinformation. A media literacy tool consisting of a Chrome extension and verification website. Won 3rd place in university hackathon. 🏆",
+    "p3_title": "Anadolu Atlas",
+    "p3_desc": "Interactive city guide website with responsive map designs. A modern interface built with HTML, CSS, and JavaScript for exploring Turkey's cities.",
+    "p4_title": "Marriage Appointment System",
+    "p4_desc": "Designed admin dashboard interface wireframes for Tarsus Municipality and initiated the project's GitHub repository processes.",
+    "p5_title": "Student Internship System",
+    "p5_desc": "Command-line based internship management system developed with Java and MySQL. Structured as a Maven project with database integration.",
+    "p6_title": "Accessible University Web",
+    "p6_desc": "OHU Accessible University community website. I serve as Web Coordinator, producing accessible web content using WordPress with Gutenberg block editor."
+  },
+  "meta": {
+    "email": "tulaycansu@email.com",
+    "github": "",
+    "linkedin": "",
+    "twitter": "",
+    "profilePhoto": ""
+  },
+  "projects": [
+    {
+      "id": "p1",
+      "title_tr": "Capybara Platformu",
+      "title_en": "Capybara Platform",
+      "desc_tr": "c-API-bara ekibiyle geliştirdiğimiz kredi tabanlı yetenek paylaşım platformu. Yapay zeka destekli video ön eleme ve puanlama sistemi, UML diyagramları ve veritabanı şemaları tasarladım.",
+      "desc_en": "Credit-based skill sharing platform developed with the c-API-bara team. I designed the AI-powered video screening and scoring system, UML diagrams, and database schemas.",
+      "category": "software",
+      "tech": "Java, MySQL, UML, AI",
+      "github": "",
+      "demo": "",
+      "image": "",
+      "images": []
+    },
+    {
+      "id": "p2",
+      "title_tr": "DevLens 🏆",
+      "title_en": "DevLens 🏆",
+      "desc_tr": "Dezenformasyonla mücadele odaklı hackathon projesi. Chrome eklentisi ve doğrulama web sitesinden oluşan medya okuryazarlığı aracı. Üniversite hackathonunda 3. oldu. 🏆",
+      "desc_en": "Hackathon project focused on fighting disinformation. A media literacy tool consisting of a Chrome extension and verification website. Won 3rd place in university hackathon. 🏆",
+      "category": "web",
+      "tech": "Chrome Ext., HTML/CSS, JavaScript",
+      "github": "",
+      "demo": "",
+      "image": "",
+      "images": []
+    },
+    {
+      "id": "p3",
+      "title_tr": "Anadolu Atlası",
+      "title_en": "Anadolu Atlas",
+      "desc_tr": "Responsive harita tasarımlarını içeren interaktif şehir tanıtım web sitesi. HTML, CSS ve JavaScript ile Türkiye'nin şehirlerini keşfetmeyi sağlayan modern bir arayüz.",
+      "desc_en": "Interactive city guide website with responsive map designs. A modern interface built with HTML, CSS, and JavaScript for exploring Turkey's cities.",
+      "category": "web",
+      "tech": "HTML, CSS, JavaScript, Responsive",
+      "github": "",
+      "demo": "",
+      "image": "",
+      "images": []
+    },
+    {
+      "id": "p4",
+      "title_tr": "Nikah Randevu Sistemi",
+      "title_en": "Marriage Appointment System",
+      "desc_tr": "Tarsus Belediyesi için yönetim paneli arayüz wireframe'leri tasarladım ve projenin GitHub repository süreçlerini başlattım.",
+      "desc_en": "Designed admin dashboard interface wireframes for Tarsus Municipality and initiated the project's GitHub repository processes.",
+      "category": "design",
+      "tech": "Figma, Wireframe, UI/UX, GitHub",
+      "github": "",
+      "demo": "",
+      "image": "",
+      "images": []
+    },
+    {
+      "id": "p5",
+      "title_tr": "Öğrenci Staj Sistemi",
+      "title_en": "Student Internship System",
+      "desc_tr": "Java ve MySQL kullanarak geliştirdiğim komut satırı tabanlı staj yönetim sistemi. Maven projesi olarak yapılandırılmış, veritabanı entegrasyonlu bir uygulama.",
+      "desc_en": "Command-line based internship management system developed with Java and MySQL. Structured as a Maven project with database integration.",
+      "category": "software",
+      "tech": "Java, Maven, MySQL, NetBeans",
+      "github": "",
+      "demo": "",
+      "image": "",
+      "images": []
+    },
+    {
+      "id": "p6",
+      "title_tr": "Engelsiz Üniversite Web",
+      "title_en": "Accessible University Web",
+      "desc_tr": "OHU Engelsiz Üniversite topluluğunun web sitesi. WordPress altyapısında Gutenberg blok editörü ile erişilebilir web içerikleri üreterek Web Koordinatörü olarak görev alıyorum.",
+      "desc_en": "OHU Accessible University community website. I serve as Web Coordinator, producing accessible web content using WordPress with Gutenberg block editor.",
+      "category": "web",
+      "tech": "WordPress, Gutenberg, Erişilebilirlik",
+      "github": "",
+      "demo": "https://ohu.edu.tr",
+      "image": "",
+      "images": []
+    }
+  ],
+  "experiences": [
+    {
+      "id": "exp_1",
+      "title_tr": "Web Koordinatörü",
+      "company_tr": "Engelsiz Üniversite Topluluğu — OHU",
+      "desc_tr": "WordPress altyapısında erişilebilir web içerikleri üretimi ve yönetimi. Gutenberg blok editörü ile topluluk web sitesinin bakımını yapıyorum.",
+      "date": "2025 - Günümüz",
+      "isEducation": false
+    },
+    {
+      "id": "exp_2",
+      "title_tr": "UI/UX Tasarımcı (Stajyer)",
+      "company_tr": "Tarsus Belediyesi",
+      "desc_tr": "Nikah Randevu Sistemi projesinde yönetim paneli wireframe'lerini Figma ile tasarladım. GitHub repository süreçlerini başlatarak ekip içi iş birliğini koordine ettim.",
+      "date": "Temmuz 2026",
+      "isEducation": false
+    },
+    {
+      "id": "exp_3",
+      "title_tr": "Hackathon Yarışmacısı — 3. 🏆",
+      "company_tr": "Üniversite Hackathonu",
+      "desc_tr": "DevLens projesiyle dezenformasyonla mücadele temalı hackathonda 3.'lük elde ettik. Chrome eklentisi ve web sitesinden oluşan medya okuryazarlığı aracı geliştirdik.",
+      "date": "Ekim - Kasım 2025",
+      "isEducation": false
+    },
+    {
+      "id": "edu_1",
+      "title_tr": "Bilgisayar Mühendisliği (Devam Ediyor)",
+      "company_tr": "Niğde Ömer Halisdemir Üniversitesi",
+      "desc_tr": "2. sınıf öğrencisiyim. Veri yapıları, algoritmalar, OOP, veritabanı yönetimi ve web teknolojileri alanlarında eğitim alıyorum. AIdea Camp, Türk Telekom AI Kampı ve She-nergy programlarına katıldım.",
+      "date": "2024 - Günümüz",
+      "isEducation": true
+    }
+  ],
+  "skills": [
+    {
+      "name": "HTML/CSS",
+      "emoji": "🌐"
+    },
+    {
+      "name": "JavaScript",
+      "emoji": "⚡"
+    },
+    {
+      "name": "Java",
+      "emoji": "☕"
+    },
+    {
+      "name": "Python",
+      "emoji": "🐍"
+    },
+    {
+      "name": "MySQL",
+      "emoji": "🗄️"
+    },
+    {
+      "name": "Git/GitHub",
+      "emoji": "📦"
+    },
+    {
+      "name": "Figma",
+      "emoji": "🎨"
+    },
+    {
+      "name": "WordPress",
+      "emoji": "📝"
+    }
+  ]
+}
